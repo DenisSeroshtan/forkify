@@ -6,7 +6,7 @@ import * as viewSearch from './views/searchView';
 
 const state = {};
 
-async function controlSearch() {
+async function controlSearch() { 
  
   const search = new Search(viewSearch.getValueSearch());
 
@@ -14,11 +14,9 @@ async function controlSearch() {
   viewSearch.clearListResult();
 
   state.search = search;
-
+  
   await state.search.getRecipe();
-
-  console.log(state.search.recipes)
-  // viewSearch.renderResult(state.search.recipes);
+  viewSearch.renderResult(state.search.result);
   
 }
 

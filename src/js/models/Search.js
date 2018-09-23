@@ -14,10 +14,12 @@ export default class SearchRecipe {
 
   async getRecipe(){
     try {
-      const res = await http.get(`${proxy}https://www.food2fork.com/api/search?key=${key}&  q=shredded%20${this.query}`);
+      const res = await http.get(`${proxy}http://food2fork.com/api/search?key=${key}&q=${this.query}`);
 
-      this.recipes = res;
-      console.log(this.recipes)
+      // const result = res;
+      // console.log(res.recipes);
+      this.result = res.recipes;
+
     } catch(e) {
       alert(e)
     }
