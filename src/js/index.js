@@ -1,6 +1,6 @@
 // Global app controller
 
-import {elem} from './views/base';
+import {elem, renderLoader, clearLoader} from './views/base';
 import Search from './models/Search';
 import * as viewSearch from './views/searchView';
 
@@ -12,10 +12,12 @@ async function controlSearch() {
 
   viewSearch.clearFieldSearch();
   viewSearch.clearListResult();
+  renderLoader(elem.result);
 
   state.search = search;
   
   await state.search.getRecipe();
+  clearLoader();
   viewSearch.renderResult(state.search.result);
   
 }
