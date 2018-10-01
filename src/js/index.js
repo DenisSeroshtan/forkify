@@ -21,11 +21,18 @@ async function controlSearch() {
   viewSearch.renderResult(state.search.result);
   
 }
-
+// search recipes
 elem.form.addEventListener('submit', e => {
   e.preventDefault();
 
   controlSearch();
 });
-
- 
+//pagination
+elem.buttonNav.addEventListener('click', e => {
+  const btn = e.target.closest('.btn-inline');
+  const goTo = parseInt(btn.dataset.goto, 10);
+  if(btn) {
+    viewSearch.clearListResult();
+    viewSearch.renderResult(state.search.result, goTo);
+  }
+}) 
