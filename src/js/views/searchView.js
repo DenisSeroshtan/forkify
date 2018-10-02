@@ -1,5 +1,5 @@
-import {elem} from './base'
-console.log(elem)
+import {elem} from './base';
+
 export const getValueSearch = () => elem.inputSearch.value;
 
 export const clearFieldSearch = () => elem.inputSearch.value = '';
