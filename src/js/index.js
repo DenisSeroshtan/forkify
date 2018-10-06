@@ -50,7 +50,11 @@ elem.buttonNav.addEventListener('click', e => {
 //////
 
 const controlRecipe = async () => {
-
+  const rec = new Recipe();
+  rec.parseIngredients();
+  console.log(
+    rec.ingredients
+  )
   const id = window.location.hash.replace("#", '')
 
   if(id) {
@@ -61,11 +65,8 @@ const controlRecipe = async () => {
     } catch (e) {
       alert('fail processing get recipe...');
     }
-     
-
-    console.log(state.recipe.title)
+      
   }
-
  
 }
 
