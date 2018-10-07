@@ -80,6 +80,22 @@ const controlRecipe = async () => {
       
   }
  
-}
+} 
 
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe))
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+elem.recipe.addEventListener('click', e => {
+  if(e.target.matches('.btn-plus, .btn-plus *')) {
+   
+      state.recipe.updateServings('+');
+      viewRecipe.updateViewRecipe(state.recipe);
+    
+    
+  } else if(e.target.matches('.btn-minus, .btn-minus *')) {
+    if (state.recipe.servings > 0) {
+      state.recipe.updateServings('-');
+      viewRecipe.updateViewRecipe(state.recipe);
+    }
+  }
+});
+

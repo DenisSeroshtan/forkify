@@ -21,6 +21,7 @@ export default class Recipe {
         this.img = recipe.image_url;
         this.url = recipe.source_url;
         this.ingredients = recipe.ingredients;
+        console.log(recipe)
         
     } catch(e) {
       console.log(e)
@@ -39,7 +40,6 @@ export default class Recipe {
   }
 
   parseIngredients() {
-    console.log(1);
     const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
     const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
 
@@ -66,10 +66,14 @@ export default class Recipe {
         let count;
         const arrCount = arrIng.slice(0, unitIndex);
         if(arrCount.length === 1) {
-          count = eval(arrIng[0].replace('-', '+'))
+          count = eval(arrIng[0].replace('-', '+'));
         } else {
-          count = eval(arrIng.slice(0, unitIndex).join('+'))
+          count = eval(arrIng.slice(0, unitIndex).join('+'));
         }
+
+        count = Math.floor(+count * 10) / 10;
+
+        console.log(count)
 
         objIng = {
           count,
@@ -92,10 +96,20 @@ export default class Recipe {
           ingredient
         }
       }
-      console.log(objIng)
       return objIng;
 
     });
     this.ingredients = newIngredients
+  }
+
+  updateServings(type) {
+    const newServings = (type === '+') ? this.servings + 1 : this.servings - 1;
+
+    this.ingredients.forEach(el => {
+      el.count *= newServings / this.servings;
+    });
+
+    this.servings = newServings;
+
   }
 }
