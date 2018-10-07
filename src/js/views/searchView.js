@@ -8,6 +8,13 @@ export const clearListResult = () => {
     elem.resultRec.innerHTML = '';
     elem.buttonNav.innerHTML = '';
 }
+export const highlighSelected = id => {
+    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    resultsArr.forEach(el => {
+        el.classList.remove('results__link--active');
+    });
+    document.querySelector(`.results__link[href*="${id}"]`).classList.add('results__link--active');
+}
 const limitRicipeTitle = (title, limit = 17) => {
     if(title.length >= limit) {
         let newTitle = [];

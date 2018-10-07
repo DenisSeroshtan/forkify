@@ -58,12 +58,13 @@ const controlRecipe = async () => {
 
   if(id) {
 
+    if(state.recipe) viewSearch.highlighSelected(id)
     try {
       renderLoader(elem.recipe);
 
       state.recipe = new Recipe(id);
       await state.recipe.getRecipe();
-
+      
       state.recipe.calcTime();
       state.recipe.calcServings();
       state.recipe.parseIngredients();
