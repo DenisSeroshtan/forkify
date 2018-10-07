@@ -6,7 +6,7 @@ const http = new easyHTTP;
 export default class Recipe {
   constructor(id) {
     this.id = id;
-    this.ingredients = ["1 pizza dough", "1/2 cups sweet chili sauce", "1 cups cooked chicken, cut bite sized pieces", "1/2 red bell pepper, sliced", "1 carrot, julienned", "1 handful bean sprouts", "2 green onions, sliced", "1 cup mozzarella cheese, shredded", "1 handful roasted peanuts, chopped (optional)", "1 handful basil, chopped (optional)", "1 handful cilantro, chopped (optional)"]
+
   }
 
   async getRecipe() {
@@ -16,13 +16,12 @@ export default class Recipe {
         const res = await http.get(`${proxy}https://www.food2fork.com/api/get?key=${key}&rId=${this.id}`);
 
         const recipe = res.recipe;
-        this.title = res.recipe.title;
-        this.author = res.recipe.publisher;
-        this.img = res.recipe.image_url;
-        this.url = res.recipe.source_url;
-        // this.ingredients = res.recipe.ingredients;
-   
-
+        this.title = recipe.title;
+        this.author = recipe.publisher;
+        this.img = recipe.image_url;
+        this.url = recipe.source_url;
+        this.ingredients = recipe.ingredients;
+        
     } catch(e) {
       console.log(e)
       alert('Something went wrong...')
@@ -40,8 +39,12 @@ export default class Recipe {
   }
 
   parseIngredients() {
+    console.log(1);
     const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
     const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+
+    const units = [...unitsShort, 'kg', 'g'];
+
     // универсальные меры 
     const newIngredients = this.ingredients.map(item => {
 
@@ -55,7 +58,7 @@ export default class Recipe {
       
       const arrIng = ingredient.split(' '); 
       
-      const unitIndex = arrIng.findIndex(el => unitsShort.includes(el))
+      const unitIndex = arrIng.findIndex(el => units.includes(el))
 
       let objIng = null; 
 
@@ -83,13 +86,13 @@ export default class Recipe {
         }
 
       } else if(unitIndex === -1) {
-        objing = {
+        objIng = {
           count: 1, 
           unit: '',
           ingredient
         }
       }
-       
+      console.log(objIng)
       return objIng;
 
     });

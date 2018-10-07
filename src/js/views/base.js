@@ -3,7 +3,8 @@ export const elem = {
   inputSearch: document.querySelector('.search__field'),
   result: document.querySelector('.results'),
   resultRec: document.querySelector('.results__list'),
-  buttonNav: document.querySelector('.results__pages')
+  buttonNav: document.querySelector('.results__pages'),
+  recipe: document.querySelector('.recipe')
 }
 export const elementLoader = {
   loader: "loader"

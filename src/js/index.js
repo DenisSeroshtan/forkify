@@ -4,6 +4,7 @@ import {elem, renderLoader, clearLoader} from './views/base';
 import Search from './models/Search';
 import * as viewSearch from './views/searchView';
 import Recipe from './models/Recipes';
+import * as viewRecipe from './views/recipeView';
 
 const state = {};
 
@@ -50,28 +51,34 @@ elem.buttonNav.addEventListener('click', e => {
 //////
 
 const controlRecipe = async () => {
-  const rec = new Recipe();
-  rec.parseIngredients();
-  console.log(
-    rec.ingredients
-  )
+  
+  viewRecipe.clearRecipe();
+
   const id = window.location.hash.replace("#", '')
 
   if(id) {
 
     try {
+      renderLoader(elem.recipe);
+
       state.recipe = new Recipe(id);
       await state.recipe.getRecipe();
+
+      state.recipe.calcTime();
+      state.recipe.calcServings();
+      state.recipe.parseIngredients();
+
+      clearLoader();
+      viewRecipe.renderRecipe(state.recipe);
+
+      
     } catch (e) {
+      clearLoader();
       alert('fail processing get recipe...');
     }
       
   }
  
 }
-
-// const recipe = new Recipe(47746);
-
-// recipe.getRecipe();
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe))
