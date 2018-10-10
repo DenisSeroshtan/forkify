@@ -21,7 +21,6 @@ export default class Recipe {
         this.img = recipe.image_url;
         this.url = recipe.source_url;
         this.ingredients = recipe.ingredients;
-        console.log(recipe)
         
     } catch(e) {
       console.log(e)
@@ -61,7 +60,6 @@ export default class Recipe {
       const unitIndex = arrIng.findIndex(el => units.includes(el))
 
       let objIng = null; 
-
       if(unitIndex > -1) {
         let count;
         const arrCount = arrIng.slice(0, unitIndex);
@@ -72,8 +70,6 @@ export default class Recipe {
         }
 
         count = Math.floor(+count * 10) / 10;
-
-        console.log(count)
 
         objIng = {
           count,

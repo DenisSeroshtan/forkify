@@ -4,7 +4,8 @@ export const elem = {
   result: document.querySelector('.results'),
   resultRec: document.querySelector('.results__list'),
   buttonNav: document.querySelector('.results__pages'),
-  recipe: document.querySelector('.recipe')
+  recipe: document.querySelector('.recipe'),
+  shopList: document.querySelector('.shopping__list')
 }
 export const elementLoader = {
   loader: "loader"
