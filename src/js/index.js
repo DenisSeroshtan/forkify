@@ -74,7 +74,7 @@ const controlRecipe = async () => {
       state.recipe.parseIngredients();
       console.log(state.recipe)
       clearLoader();
-      viewRecipe.renderRecipe(state.recipe);
+      viewRecipe.renderRecipe(state.recipe, state.likes.isLiked(id));
 
       
     } catch (e) {
