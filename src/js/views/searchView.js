@@ -15,7 +15,7 @@ export const highlighSelected = id => {
     });
     document.querySelector(`.results__link[href*="${id}"]`).classList.add('results__link--active');
 }
-const limitRicipeTitle = (title, limit = 17) => {
+export const limitRicipeTitle = (title, limit = 17) => {
     if(title.length >= limit) {
         let newTitle = [];
 

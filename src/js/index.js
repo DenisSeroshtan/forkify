@@ -7,9 +7,11 @@ import Recipe from './models/Recipes';
 import * as viewRecipe from './views/recipeView';
 import List from './models/List';
 import * as shopView from './views/shopView';
+import Likes from './models/Likes';
+import * as likesView from './views/likesView';
 
 const state = {};
-
+window.st = state;
 async function controlSearch() { 
   
   try {
@@ -70,7 +72,7 @@ const controlRecipe = async () => {
       state.recipe.calcTime();
       state.recipe.calcServings();
       state.recipe.parseIngredients();
-
+      console.log(state.recipe)
       clearLoader();
       viewRecipe.renderRecipe(state.recipe);
 
@@ -88,18 +90,50 @@ const controlRecipe = async () => {
 //////
 
 const controlList = () => {
-  if(state.recipe) state.list = new List();
-  console.log(state)
+  if(!state.list) state.list = new List();
   state.recipe.ingredients.forEach(ing => {
     const item = state.list.addItem(ing.count, ing.unit, ing.ingredient);
     shopView.renderShopItem(item);
   })
 
 }
+//////
+// Likes controller 
+//////
+
+const controlLikes = () => {
+  if(!state.likes) state.likes = new Likes();
+  const id = state.recipe.id
+  
+  if(!state.likes.isLiked(id)){
+    const likeRecipe = state.likes.addRecipesLikes(state.recipe);
+    likesView.changeBtn(true)
+    likesView.showLike(state.likes.recipes);
+
+    likesView.renderLikes(likeRecipe);
+  } else {
+    state.likes.deleteRecipesLikes(id);
+    likesView.showLike(state.likes.recipes)
+
+    likesView.deleteLikes(id);
+    likesView.changeBtn(false)
+    
+  }
+  
+}
+
 
 //////
 //events
 //////
+window.addEventListener('load', () => {
+  if (!state.likes) state.likes = new Likes();
+
+  state.likes.getStorage();
+  likesView.showLike(state.likes.recipes);
+
+  state.likes.recipes.forEach(recipe => likesView.renderLikes(recipe));
+});
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
@@ -109,7 +143,6 @@ elem.recipe.addEventListener('click', e => {
       state.recipe.updateServings('+');
       viewRecipe.updateViewRecipe(state.recipe);
     
-    
   } else if(e.target.matches('.btn-minus, .btn-minus *')) {
     if (state.recipe.servings > 0) {
       state.recipe.updateServings('-');
@@ -117,6 +150,8 @@ elem.recipe.addEventListener('click', e => {
     }
   } else if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
     controlList()
+  } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+    controlLikes()
   }
 });
 

@@ -5,7 +5,10 @@ export const elem = {
   resultRec: document.querySelector('.results__list'),
   buttonNav: document.querySelector('.results__pages'),
   recipe: document.querySelector('.recipe'),
-  shopList: document.querySelector('.shopping__list')
+  shopList: document.querySelector('.shopping__list'),
+  likesList: document.querySelector('.likes__list'),
+  likes: document.querySelector('.likes')
+  
 }
 export const elementLoader = {
   loader: "loader"
