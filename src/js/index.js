@@ -11,7 +11,7 @@ import Likes from './models/Likes';
 import * as likesView from './views/likesView';
 
 const state = {};
-window.st = state;
+
 async function controlSearch() { 
   
   try {
@@ -62,7 +62,8 @@ const controlRecipe = async () => {
 
   if(id) {
 
-    if(state.recipe) viewSearch.highlighSelected(id)
+    if(state.search) viewSearch.highlighSelected(id)
+
     try {
       renderLoader(elem.recipe);
 
@@ -72,7 +73,7 @@ const controlRecipe = async () => {
       state.recipe.calcTime();
       state.recipe.calcServings();
       state.recipe.parseIngredients();
-      console.log(state.recipe)
+     
       clearLoader();
       viewRecipe.renderRecipe(state.recipe, state.likes.isLiked(id));
 
