@@ -5,7 +5,6 @@ import {proxy , key} from '../config'
 
 const http = new easyHTTP;
 
-// const key = '462b1cc8d4f2730081462fbc65136320';
 export default class SearchRecipe {
   constructor(query) {
     this.query = query;

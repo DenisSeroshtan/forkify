@@ -2,6 +2,7 @@
 
 import {elem, renderLoader, clearLoader} from './views/base';
 import Search from './models/Search';
+import Translate from './models/Translate';
 import * as viewSearch from './views/searchView';
 import Recipe from './models/Recipes';
 import * as viewRecipe from './views/recipeView';
@@ -13,18 +14,36 @@ import * as likesView from './views/likesView';
 const state = {};
 
 async function controlSearch() { 
+  try {
+    // перевод строки поиска с русского на английский
+    const translate = new Translate(viewSearch.getValueSearch());
+    state.translate = translate
+    await state.translate.getTranslate();
+  } catch(e) {
+    alert('fail processing translated...');
+  }
   
   try {
-    const search = new Search(viewSearch.getValueSearch());
+    if (!state.translate) {
+      alert('recipes not translated');
+      return;
+    }
+    // получение списка рецептов
+    const search = new Search(state.translate.translateSearch);
+    state.search = search;
 
     viewSearch.clearFieldSearch();
     viewSearch.clearListResult();
     renderLoader(elem.result);
 
-    state.search = search;
-
+    
     await state.search.getRecipe();
     clearLoader();
+    if (state.search.result.length === 0) {
+      alert('recipes not found');
+      return;
+    }
+
     viewSearch.renderResult(state.search.result);
     
   } catch(e) {
